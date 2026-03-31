@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Арабский алфавит для детей 🌟</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fff9f0;
+        --bg2: #ffffff;
+        --text: #2d2a3e;
+        --text-muted: #8b85a0;
+        --border: rgba(0, 0, 0, 0.07);
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.14);
+        --radius: 20px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Nunito", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Polka dot background */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(0, 0, 0, 0.04) 1px,
+          transparent 1px
+        );
+        background-size: 30px 30px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Floating shapes */
+      .shapes {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .shape {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.12;
+        animation: floatShape linear infinite;
+      }
+      @keyframes floatShape {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-40px) rotate(180deg);
+        }
+        100% {
+          transform: translateY(0) rotate(360deg);
+        }
+      }
+
+      /* Header */
+      header {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding: 48px 24px 32px;
+      }
+
+      .header-clouds {
+        font-size: 40px;
+        margin-bottom: 8px;
+        animation: bounce 2s ease-in-out infinite;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      h1 {
+        font-size: clamp(28px, 6vw, 52px);
+        font-weight: 900;
+        color: var(--text);
+        margin-bottom: 8px;
+        line-height: 1.1;
+      }
+      h1 span {
+        background: linear-gradient(
+          135deg,
+          #ff6b6b,
+          #ff8e53,
+          #ffc947,
+          #56c596,
+          #4ecdc4
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .arabic-subtitle {
+        font-family: "Amiri", serif;
+        font-size: clamp(20px, 4vw, 36px);
+        color: #ff8e53;
+        letter-spacing: 6px;
+        direction: rtl;
+        margin-bottom: 12px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 28px;
+      }
+
+      /* Stars progress */
+      .stars-section {
+        position: relative;
+        z-index: 10;
+        max-width: 500px;
+        margin: 0 auto 40px;
+        padding: 0 24px;
+      }
+      .stars-card {
+        background: var(--bg2);
+        border-radius: var(--radius);
+        padding: 20px 28px;
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .stars-icon {
+        font-size: 40px;
+      }
+      .stars-info {
+        flex: 1;
+      }
+      .stars-title {
+        font-weight: 800;
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+      .stars-bar {
+        height: 12px;
+        background: #f0edf8;
+        border-radius: 100px;
+        overflow: hidden;
+      }
+      .stars-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ff6b6b, #ffc947, #56c596);
+        border-radius: 100px;
+        transition: width 0.6s ease;
+      }
+      .stars-count {
+        font-size: 13px;
+        color: var(--text-muted);
+        font-weight: 700;
+        margin-top: 4px;
+      }
+      .stars-total {
+        font-size: 22px;
+        font-weight: 900;
+        color: #ffc947;
+      }
+
+      /* Grid */
+      .grid-section {
+        position: relative;
+        z-index: 10;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px 80px;
+      }
+
+      .section-label {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text-muted);
+        margin-bottom: 24px;
+        letter-spacing: 1px;
+      }
+
+      .alphabet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 14px;
+      }
+
+      .letter-card {
+        background: var(--bg2);
+        border-radius: var(--radius);
+        padding: 20px 12px 16px;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.2s;
+        position: relative;
+        overflow: hidden;
+        border: 3px solid transparent;
+        display: block;
+      }
+      .letter-card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--card-color);
+      }
+      .letter-card.done {
+        border-color: var(--card-color);
+      }
+      .letter-card.done::after {
+        content: "⭐";
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        font-size: 16px;
+      }
+
+      .card-top-stripe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: var(--card-color);
+        border-radius: 2px 2px 0 0;
+      }
+
+      .card-number {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
+
+      .card-letter {
+        font-family: "Amiri", serif;
+        font-size: 52px;
+        line-height: 1;
+        display: block;
+        margin-bottom: 6px;
+        color: var(--card-color);
+        transition: transform 0.2s;
+      }
+      .letter-card:hover .card-letter {
+        transform: scale(1.2);
+      }
+
+      .card-emoji {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+
+      .card-name {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .card-sound {
+        display: inline-block;
+        background: var(--card-color-light, #f0edf8);
+        color: var(--card-color);
+        font-size: 11px;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 100px;
+        margin-top: 4px;
+      }
+
+      /* Reset */
+      .footer-section {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding-bottom: 48px;
+      }
+      .btn-reset {
+        background: none;
+        border: 2px solid var(--border);
+        color: var(--text-muted);
+        font-family: "Nunito", sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 10px 24px;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-reset:hover {
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+      }
+
+      @media (max-width: 480px) {
+        .alphabet-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 8px;
+        }
+        .card-letter {
+          font-size: 36px;
+        }
+        .card-name {
+          font-size: 11px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shapes" id="shapes"></div>
+
+    <header>
+      <div class="header-clouds">⭐ 🌟 ✨ 🌟 ⭐</div>
+      <h1>Учим <span>Арабский</span><br />Алфавит!</h1>
+      <div class="arabic-subtitle">الأبجدية العربية</div>
+      <p class="subtitle">28 весёлых букв ждут тебя! 🎉</p>
+    </header>
+
+    <!-- <div class="stars-section">
+      <div class="stars-card">
+        <div class="stars-icon">🏆</div>
+        <div class="stars-info">
+          <div class="stars-title">Мои звёздочки</div>
+          <div class="stars-bar">
+            <div class="stars-fill" id="starsFill" style="width: 0%"></div>
+          </div>
+          <div class="stars-count">
+            <span id="starsEarned" class="stars-total">0</span> из 28 букв
+            изучено!
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="grid-section">
+      <div class="section-label">👇 Нажми на букву, чтобы учиться!</div>
+      <div class="alphabet-grid" id="grid"></div>
+    </div>
+
+    <div class="footer-section">
+      <button
+        class="btn-reset"
+        onclick="
+          if (confirm('Начать заново?')) {
+            localStorage.removeItem('arabicKidsProgress');
+            location.reload();
+          }
+        "
+      >
+        🔄 Начать заново
+      </button>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+      // Animated background shapes
+      const shapesEl = document.getElementById("shapes");
+      const colors = [
+        "#FF6B6B",
+        "#FF8E53",
+        "#FFC947",
+        "#56C596",
+        "#4ECDC4",
+        "#A855F7",
+        "#3B82F6",
+      ];
+      for (let i = 0; i < 12; i++) {
+        const s = document.createElement("div");
+        s.className = "shape";
+        const size = 40 + Math.random() * 80;
+        s.style.cssText = `
+        width:${size}px; height:${size}px;
+        background:${colors[i % colors.length]};
+        top:${Math.random() * 100}%; left:${Math.random() * 100}%;
+        animation-duration:${8 + Math.random() * 8}s;
+        animation-delay:${Math.random() * 5}s;
+      `;
+        shapesEl.appendChild(s);
+      }
+
+      // Progress
+      function getProgress() {
+        try {
+          return JSON.parse(localStorage.getItem("arabicKidsProgress") || "{}");
+        } catch {
+          return {};
+        }
+      }
+      function updateStars() {
+        const p = getProgress();
+        const done = Object.values(p).filter((v) => v.quizPassed).length;
+        document.getElementById("starsEarned").textContent = done;
+        document.getElementById("starsFill").style.width =
+          (done / 28) * 100 + "%";
+      }
+
+      function buildGrid() {
+        const grid = document.getElementById("grid");
+        const p = getProgress();
+        grid.innerHTML = "";
+        ARABIC_LETTERS.forEach((l) => {
+          const state = p[l.id] || {};
+          const card = document.createElement("a");
+          card.href = `letter.html?id=${l.id}`;
+          card.className = "letter-card" + (state.quizPassed ? " done" : "");
+          card.style.setProperty("--card-color", l.color);
+          card.style.setProperty("--card-color-light", l.colorLight);
+          card.innerHTML = `
+          <div class="card-top-stripe"></div>
+          <div class="card-number">${l.id}</div>
+          <span class="card-letter">${l.letter}</span>
+          <div class="card-emoji">${l.emoji}</div>
+          <!--
+          <div class="card-name">${l.name}</div>
+          <div class="card-sound">${l.sound}</div>
+          -->
+        `;
+          grid.appendChild(card);
+        });
+      }
+
+      buildGrid();
+      updateStars();
+    </script>
+  </body>
+</html>

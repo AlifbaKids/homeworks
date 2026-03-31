@@ -1,0 +1,2021 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Учим букву!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ════════════════════════════════════════════════
+       BASE
+    ════════════════════════════════════════════════ */
+      :root {
+        --bg: #fff9f0;
+        --bg2: #ffffff;
+        --bg3: #f5f2ff;
+        --text: #2d2a3e;
+        --muted: #9590a8;
+        --sh: 0 4px 24px rgba(0, 0, 0, 0.09);
+        --sh-lg: 0 8px 40px rgba(0, 0, 0, 0.15);
+        --clr: #ff6b6b;
+        --clr-l: #ffe5e5;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Nunito", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: radial-gradient(
+          rgba(0, 0, 0, 0.04) 1px,
+          transparent 1px
+        );
+        background-size: 28px 28px;
+        pointer-events: none;
+      }
+      #cv {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 999;
+        display: none;
+      }
+
+      /* ════════════════════════════════════════════════
+       TOPNAV
+    ════════════════════════════════════════════════ */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255, 249, 240, 0.93);
+        backdrop-filter: blur(14px);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+        height: 58px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav a,
+      .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--bg2);
+        border: none;
+        font-family: "Nunito", sans-serif;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--text);
+        padding: 7px 14px;
+        border-radius: 100px;
+        box-shadow: var(--sh);
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .nav a:hover,
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--sh-lg);
+      }
+      .nav-letter {
+        font-family: "Amiri", serif;
+        font-size: 30px;
+        color: var(--clr);
+      }
+      .nav-name {
+        font-weight: 900;
+        font-size: 15px;
+      }
+      .spacer {
+        flex: 1;
+      }
+
+      /* ════════════════════════════════════════════════
+       HERO
+    ════════════════════════════════════════════════ */
+      .hero {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 32px 20px 20px;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+      .letter-ring {
+        width: 164px;
+        height: 164px;
+        background: var(--clr-l);
+        border-radius: 50%;
+        margin: 0 auto 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        animation: pulse 3s ease-in-out infinite;
+        cursor: pointer;
+      }
+      .letter-ring::before {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        border: 3px dashed var(--clr);
+        opacity: 0.28;
+        animation: spin 10s linear infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.04);
+        }
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .big-letter {
+        font-family: "Amiri", serif;
+        font-size: 104px;
+        color: var(--clr);
+        line-height: 1;
+        transition: transform 0.25s;
+      }
+      .letter-ring:hover .big-letter {
+        transform: scale(1.15) rotate(8deg);
+      }
+      .hero-emoji {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 28px;
+      }
+      .hero-title {
+        font-size: clamp(24px, 5vw, 38px);
+        font-weight: 900;
+        margin-bottom: 4px;
+      }
+      .hero-arabic {
+        font-family: "Amiri", serif;
+        font-size: 22px;
+        color: var(--clr);
+        direction: rtl;
+        margin-bottom: 8px;
+      }
+      .sound-pill {
+        /* display: inline-flex; */
+        display: none;
+        align-items: center;
+        gap: 6px;
+        background: var(--clr);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 900;
+        padding: 6px 20px;
+        border-radius: 100px;
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+      }
+      .hero-desc {
+        font-size: 15px;
+        color: var(--muted);
+        font-weight: 600;
+        max-width: 420px;
+        margin: 0 auto 18px;
+        line-height: 1.5;
+      }
+      .forms-row {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .fp {
+        background: var(--bg2);
+        border-radius: 12px;
+        padding: 8px 14px;
+        text-align: center;
+        box-shadow: var(--sh);
+      }
+      .fp-lbl {
+        font-size: 10px;
+        font-weight: 800;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+      }
+      .fp-char {
+        font-family: "Amiri", serif;
+        font-size: 30px;
+        color: var(--clr);
+        direction: rtl;
+      }
+
+      /* ════════════════════════════════════════════════
+       CAROUSEL SHELL
+    ════════════════════════════════════════════════ */
+      .carousel-wrap {
+        position: relative;
+        z-index: 10;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0 20px 80px;
+      }
+      .carousel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .slide-counter {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--muted);
+        background: var(--bg2);
+        padding: 5px 14px;
+        border-radius: 100px;
+        box-shadow: var(--sh);
+      }
+      .type-badge {
+        font-size: 12px;
+        font-weight: 800;
+        padding: 5px 14px;
+        border-radius: 100px;
+        box-shadow: var(--sh);
+      }
+      .dots {
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #e0dcf0;
+        cursor: pointer;
+        transition:
+          background 0.25s,
+          transform 0.2s;
+      }
+      .dot.active {
+        background: var(--clr);
+        transform: scale(1.35);
+      }
+      .dot.visited {
+        background: var(--clr);
+        opacity: 0.45;
+      }
+
+      /* the card itself */
+      .slide-card {
+        background: var(--bg2);
+        border-radius: 28px;
+        box-shadow: var(--sh);
+        border: 3px solid var(--clr-l);
+        overflow: hidden;
+        min-height: 320px;
+        position: relative;
+        animation: slideIn 0.3s ease;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .slide-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: var(--clr);
+        z-index: 1;
+      }
+
+      /* ── shared inner pieces ── */
+      .s-title {
+        padding: 18px 22px 6px;
+        font-size: 17px;
+        font-weight: 900;
+        line-height: 1.3;
+      }
+      .s-text {
+        padding: 10px 22px 18px;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.65;
+        white-space: pre-wrap; /* honour \n in text */
+      }
+      .s-caption {
+        padding: 6px 22px 18px;
+        font-size: 20px;
+        font-weight: 600;
+        /* color: var(--muted); */
+        line-height: 1.5;
+        /* font-style: italic; */
+        white-space: pre-wrap; /* honour \n in text */
+      }
+
+      /* ════════════════════════════════════════════════
+       SLIDE  — IMAGE
+       Поддерживает: src, caption, text, audio
+    ════════════════════════════════════════════════ */
+      .img-wrap {
+        width: 100%;
+        background: var(--clr-l);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 220px;
+        overflow: hidden;
+      }
+      .img-wrap img {
+        width: 100%;
+        max-height: 380px;
+        object-fit: contain;
+        display: block;
+      }
+      .img-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 36px;
+        color: var(--clr);
+        opacity: 0.5;
+      }
+      .img-placeholder .pl-big {
+        font-family: "Amiri", serif;
+        font-size: 110px;
+        line-height: 1;
+      }
+      .img-placeholder .pl-hint {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      /* inline audio player inside image slide */
+      .img-audio-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px 0;
+        background: var(--clr-l);
+        border-radius: 14px;
+        margin: 0 22px;
+      }
+      .img-audio-row audio {
+        flex: 1;
+        accent-color: var(--clr);
+      }
+      .img-audio-row .audio-hint {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--clr);
+        white-space: nowrap;
+      }
+      .img-audio-placeholder {
+        margin: 0 22px;
+        background: var(--clr-l);
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+
+      /* ════════════════════════════════════════════════
+       SLIDE  — TEXT
+       fields: title, body, emoji, align, size
+    ════════════════════════════════════════════════ */
+      .text-slide-body {
+        padding: 36px 28px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .text-slide-emoji {
+        font-size: 52px;
+        text-align: center;
+        line-height: 1;
+      }
+      .text-slide-title {
+        font-size: 20px;
+        font-weight: 900;
+        line-height: 1.3;
+      }
+      .text-slide-title.align-center {
+        text-align: center;
+      }
+      .text-slide-title.align-right {
+        text-align: right;
+      }
+      .text-slide-content {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.75;
+        color: var(--text);
+        white-space: pre-wrap;
+      }
+      .text-slide-content.align-center {
+        text-align: center;
+      }
+      .text-slide-content.align-right {
+        text-align: right;
+      }
+      .text-slide-content.size-small {
+        font-size: 14px;
+      }
+      .text-slide-content.size-large {
+        font-size: 20px;
+      }
+      .text-slide-content.size-xlarge {
+        font-size: 26px;
+      }
+      /* coloured highlight spans inside body text */
+      .text-slide-content em {
+        font-style: normal;
+        color: var(--clr);
+        font-weight: 800;
+      }
+
+      /* ── multi-image gallery ── */
+      .gallery-grid {
+        display: grid;
+        gap: 10px;
+        padding: 14px 14px 0;
+      }
+      .gallery-grid.count-1 {
+        grid-template-columns: 1fr;
+      }
+      .gallery-grid.count-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .gallery-grid.count-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .gallery-grid.count-4 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .gallery-grid.count-many {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      .gallery-item {
+        position: relative;
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--clr-l);
+        cursor: zoom-in;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .gallery-item:hover {
+        transform: scale(1.03);
+        box-shadow: var(--sh-lg);
+      }
+      .gallery-item img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+      }
+      .gallery-grid.count-1 .gallery-item img {
+        aspect-ratio: unset;
+        /* max-height: 340px; */
+        object-fit: contain;
+      }
+      .gallery-item-cap {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.52);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 5px 8px;
+        line-height: 1.3;
+      }
+      .gallery-item-ph {
+        aspect-ratio: 1/1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        color: var(--clr);
+        opacity: 0.5;
+        padding: 16px;
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .gallery-item-ph .ph-l {
+        font-family: "Amiri", serif;
+        font-size: 52px;
+        line-height: 1;
+      }
+
+      /* ── Lightbox ── */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        background: rgba(0, 0, 0, 0.88);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s;
+      }
+      .lightbox.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .lightbox-inner {
+        position: relative;
+        max-width: min(90vw, 700px);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+      .lightbox-img {
+        width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+        border-radius: 16px;
+        display: block;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+      }
+      .lightbox-cap {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        text-align: center;
+        max-width: 520px;
+        line-height: 1.5;
+      }
+      .lb-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.18);
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 20px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.18s;
+      }
+      .lb-arrow:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+      .lb-arrow.lb-prev {
+        left: -58px;
+      }
+      .lb-arrow.lb-next {
+        right: -58px;
+      }
+      @media (max-width: 600px) {
+        .lb-arrow.lb-prev {
+          left: -46px;
+        }
+        .lb-arrow.lb-next {
+          right: -46px;
+        }
+      }
+      .lb-close {
+        position: absolute;
+        top: -46px;
+        right: 0;
+        background: rgba(255, 255, 255, 0.18);
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 18px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.18s;
+      }
+      .lb-close:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+      .lb-counter {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      /* ════════════════════════════════════════════════
+       SLIDE  — AUDIO
+       Поддерживает: src, caption, text
+    ════════════════════════════════════════════════ */
+      .audio-body {
+        padding: 36px 24px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        text-align: center;
+      }
+      .audio-letter-big {
+        font-family: "Amiri", serif;
+        font-size: 110px;
+        color: var(--clr);
+        line-height: 1;
+        animation: pulse 3s ease-in-out infinite;
+      }
+      .audio-player-wrap {
+        width: 100%;
+        max-width: 380px;
+      }
+      .audio-player-wrap audio {
+        width: 100%;
+        accent-color: var(--clr);
+      }
+      .audio-no-src {
+        background: var(--clr-l);
+        border-radius: 14px;
+        padding: 14px 20px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      /* text / caption below audio player are rendered via .s-text / .s-caption OUTSIDE .audio-body */
+
+      /* ════════════════════════════════════════════════
+       SLIDE  — VIDEO
+       Поддерживает: youtube, src, caption, text
+    ════════════════════════════════════════════════ */
+      .video-frame {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border: none;
+        display: block;
+      }
+      .video-local {
+        width: 100%;
+        display: block;
+        max-height: 400px;
+        background: #000;
+      }
+      .video-placeholder {
+        aspect-ratio: 16/9;
+        background: var(--clr-l);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        cursor: pointer;
+      }
+      .video-placeholder:hover .play-big {
+        transform: scale(1.1);
+      }
+      .play-big {
+        width: 72px;
+        height: 72px;
+        background: var(--clr);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: #fff;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+        transition: transform 0.2s;
+      }
+      .video-ph-title {
+        font-size: 16px;
+        font-weight: 800;
+        text-align: center;
+        max-width: 280px;
+      }
+      .video-ph-sub {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      /* ════════════════════════════════════════════════
+       SLIDE  — QUIZ  (одиночный ответ)
+    ════════════════════════════════════════════════ */
+      .quiz-body {
+        padding: 28px 22px 24px;
+      }
+      .q-emoji {
+        font-size: 44px;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .q-num {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .q-text {
+        font-size: 20px;
+        font-weight: 900;
+        text-align: center;
+        line-height: 1.4;
+        margin-bottom: 22px;
+      }
+      .q-opts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .q-opt {
+        background: #f8f6ff;
+        border: 3px solid #ede8f5;
+        border-radius: 14px;
+        padding: 14px 10px;
+        font-family: "Nunito", sans-serif;
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--text);
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.15s;
+      }
+      .q-opt:hover:not(:disabled) {
+        border-color: var(--clr);
+        background: var(--clr-l);
+        transform: scale(1.03);
+      }
+      .q-opt.correct {
+        background: #e5fff2;
+        border-color: #56c596;
+        color: #197a4a;
+      }
+      .q-opt.wrong {
+        background: #ffe5e5;
+        border-color: #ff6b6b;
+        color: #b83030;
+      }
+      .q-opt:disabled {
+        cursor: default;
+      }
+      .q-fb {
+        margin-top: 16px;
+        border-radius: 14px;
+        padding: 14px 18px;
+        font-size: 16px;
+        font-weight: 800;
+        text-align: center;
+        display: none;
+      }
+      .q-fb.correct {
+        background: #e5fff2;
+        color: #197a4a;
+        display: block;
+      }
+      .q-fb.wrong {
+        background: #ffe5e5;
+        color: #b83030;
+        display: block;
+      }
+
+      /* ════════════════════════════════════════════════
+       SLIDE  — QUIZ-MULTI  (несколько правильных ответов)
+    ════════════════════════════════════════════════ */
+      /* .q-opts already shared */
+      .q-opt.selected {
+        border-color: var(--clr);
+        background: var(--clr-l);
+      }
+      .q-opt.sel-correct {
+        background: #e5fff2;
+        border-color: #56c596;
+        color: #197a4a;
+      }
+      .q-opt.sel-wrong {
+        background: #ffe5e5;
+        border-color: #ff6b6b;
+        color: #b83030;
+      }
+      .q-opt.missed {
+        background: #fff8e5;
+        border-color: #ffc947;
+        color: #7a5e00;
+      } /* correct but not chosen */
+
+      .q-submit-row {
+        margin-top: 16px;
+        text-align: center;
+      }
+      .q-submit-btn {
+        background: var(--clr);
+        border: none;
+        color: #fff;
+        font-family: "Nunito", sans-serif;
+        font-size: 16px;
+        font-weight: 900;
+        padding: 13px 34px;
+        border-radius: 100px;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+        transition:
+          transform 0.18s,
+          opacity 0.18s;
+      }
+      .q-submit-btn:hover {
+        transform: scale(1.04);
+      }
+      .q-submit-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+        transform: none;
+      }
+
+      /* ════════════════════════════════════════════════
+       SLIDE  — DOWNLOAD
+    ════════════════════════════════════════════════ */
+      .dl-body {
+        padding: 40px 28px 36px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        text-align: center;
+      }
+      .dl-icon-wrap {
+        width: 96px;
+        height: 96px;
+        background: var(--clr-l);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        animation: pulse 3s ease-in-out infinite;
+      }
+      .dl-title {
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .dl-desc {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 600;
+        line-height: 1.55;
+        max-width: 360px;
+      }
+      .dl-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--clr);
+        color: #fff;
+        text-decoration: none;
+        font-family: "Nunito", sans-serif;
+        font-size: 16px;
+        font-weight: 900;
+        padding: 14px 30px;
+        border-radius: 100px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .dl-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+      }
+      .dl-btn .dl-arrow {
+        font-size: 20px;
+      }
+      .dl-no-src {
+        background: var(--clr-l);
+        border-radius: 14px;
+        padding: 14px 22px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      .dl-file-info {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+        background: var(--bg3);
+        border-radius: 10px;
+        padding: 6px 16px;
+      }
+
+      /* ════════════════════════════════════════════════
+       CAROUSEL NAV + SCORE
+    ════════════════════════════════════════════════ */
+      .carousel-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 18px;
+        gap: 12px;
+      }
+      .arrow-btn {
+        width: 52px;
+        height: 52px;
+        flex-shrink: 0;
+        background: var(--bg2);
+        border: none;
+        border-radius: 50%;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: var(--sh);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .arrow-btn:hover {
+        transform: scale(1.1);
+        box-shadow: var(--sh-lg);
+      }
+      .arrow-btn:disabled {
+        opacity: 0.3;
+        cursor: default;
+        transform: none;
+        box-shadow: var(--sh);
+      }
+      .score-chip {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--muted);
+      }
+      .score-chip span {
+        color: var(--clr);
+        font-size: 18px;
+      }
+
+      /* ════════════════════════════════════════════════
+       DONE BANNER
+    ════════════════════════════════════════════════ */
+      .done-banner {
+        display: none;
+        background: var(--bg2);
+        border-radius: 24px;
+        box-shadow: var(--sh);
+        border: 3px solid var(--clr-l);
+        padding: 36px 24px;
+        text-align: center;
+        margin-top: 16px;
+      }
+      .done-banner.show {
+        display: block;
+        animation: slideIn 0.35s ease;
+      }
+      .done-trophy {
+        font-size: 80px;
+        animation: bounce 1.2s ease-in-out infinite;
+        margin-bottom: 12px;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0) rotate(-5deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(5deg);
+        }
+      }
+      .done-title {
+        font-size: 28px;
+        font-weight: 900;
+        margin-bottom: 6px;
+      }
+      .done-score {
+        font-size: 48px;
+        font-weight: 900;
+        color: var(--clr);
+        margin-bottom: 6px;
+      }
+      .done-stars {
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+      .done-sub {
+        font-size: 15px;
+        color: var(--muted);
+        font-weight: 700;
+        margin-bottom: 24px;
+      }
+      .done-btns {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      .btn-again {
+        background: none;
+        border: 3px solid var(--clr);
+        color: var(--clr);
+        font-family: "Nunito", sans-serif;
+        font-size: 15px;
+        font-weight: 900;
+        padding: 12px 28px;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-again:hover {
+        background: var(--clr);
+        color: #fff;
+      }
+      .btn-home {
+        background: var(--bg3);
+        border: none;
+        color: var(--text);
+        font-family: "Nunito", sans-serif;
+        font-size: 15px;
+        font-weight: 900;
+        padding: 12px 28px;
+        border-radius: 100px;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: var(--sh);
+        transition: transform 0.18s;
+      }
+      .btn-home:hover {
+        transform: translateY(-2px);
+      }
+      .btn-next {
+        background: var(--clr);
+        border: none;
+        color: #fff;
+        font-family: "Nunito", sans-serif;
+        font-size: 15px;
+        font-weight: 900;
+        padding: 12px 28px;
+        border-radius: 100px;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        transition: transform 0.18s;
+      }
+      .btn-next:hover {
+        transform: scale(1.04);
+      }
+
+      @media (max-width: 480px) {
+        .q-opts {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 20px 14px 14px;
+        }
+        .carousel-wrap {
+          padding: 0 12px 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="cv"></canvas>
+
+    <!-- ── Lightbox ── -->
+    <div class="lightbox" id="lightbox" onclick="lbClose(event)">
+      <div class="lightbox-inner" id="lbInner">
+        <button class="lb-close" onclick="lbHide()">✕</button>
+        <button class="lb-arrow lb-prev" id="lbPrev" onclick="lbMove(-1)">
+          ◀
+        </button>
+        <img class="lightbox-img" id="lbImg" src="" alt="" />
+        <button class="lb-arrow lb-next" id="lbNext" onclick="lbMove(1)">
+          ▶
+        </button>
+        <div class="lb-counter" id="lbCounter"></div>
+        <div class="lightbox-cap" id="lbCap"></div>
+      </div>
+    </div>
+
+    <!-- ── Topnav ── -->
+    <nav class="nav">
+      <a href="index.html">🏠 Назад</a>
+      <span class="nav-letter" id="nLetter"></span>
+      <span class="nav-name" id="nName"></span>
+      <span class="spacer"></span>
+      <a id="bPrev" href="#">◀</a>
+      <a id="bNext" href="#">▶</a>
+    </nav>
+
+    <!-- ── Hero ── -->
+    <div class="hero">
+      <div class="letter-ring" id="ring">
+        <span class="big-letter" id="bLetter"></span>
+        <span class="hero-emoji" id="bEmoji"></span>
+      </div>
+      <h1 class="hero-title" id="hTitle"></h1>
+      <div class="hero-arabic" id="hArabic"></div>
+      <div class="sound-pill">🔊 <span id="hSound"></span></div>
+      <p class="hero-desc" id="hDesc"></p>
+      <div class="forms-row" id="formsRow"></div>
+    </div>
+
+    <!-- ── Carousel ── -->
+    <div class="carousel-wrap">
+      <div class="carousel-header">
+        <div class="slide-counter" id="slideCounter">1 / 1</div>
+        <div class="type-badge" id="typeBadge"></div>
+      </div>
+      <div class="dots" id="dots"></div>
+
+      <!-- the main slide card -->
+      <div class="slide-card" id="slideCard"></div>
+
+      <div class="carousel-nav">
+        <button class="arrow-btn" id="btnPrev" onclick="move(-1)">◀</button>
+        <div class="score-chip" id="scoreChip"></div>
+        <button class="arrow-btn" id="btnNext" onclick="move(1)">▶</button>
+      </div>
+
+      <!-- done banner -->
+      <div class="done-banner" id="doneBanner">
+        <div class="done-trophy" id="dTrophy"></div>
+        <div class="done-title" id="dTitle"></div>
+        <div class="done-score" id="dScore"></div>
+        <div class="done-stars" id="dStars"></div>
+        <div class="done-sub" id="dSub"></div>
+        <div class="done-btns">
+          <button class="btn-again" onclick="restart()">🔄 Сначала</button>
+          <a href="index.html" class="btn-home">🏠 Все буквы</a>
+          <a id="bNextLetter" class="btn-next" href="#">Следующая ▶</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+     CONFETTI
+════════════════════════════════════════════════ -->
+    <script>
+      function confetti() {
+        const cv = document.getElementById("cv");
+        cv.style.display = "block";
+        cv.width = innerWidth;
+        cv.height = innerHeight;
+        const ctx = cv.getContext("2d");
+        const clrs = [
+          "#FF6B6B",
+          "#FF8E53",
+          "#FFC947",
+          "#56C596",
+          "#4ECDC4",
+          "#A855F7",
+          "#3B82F6",
+        ];
+        const ps = Array.from({ length: 140 }, () => ({
+          x: Math.random() * cv.width,
+          y: -10 - Math.random() * 120,
+          r: 5 + Math.random() * 7,
+          c: clrs[(Math.random() * clrs.length) | 0],
+          vx: (Math.random() - 0.5) * 4,
+          vy: 2 + Math.random() * 4,
+          rot: Math.random() * Math.PI * 2,
+          vr: (Math.random() - 0.5) * 0.18,
+        }));
+        let af;
+        (function draw() {
+          ctx.clearRect(0, 0, cv.width, cv.height);
+          ps.forEach((p) => {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.fillStyle = p.c;
+            ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+            ctx.restore();
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vr;
+            p.vy += 0.06;
+          });
+          if (ps.some((p) => p.y < cv.height + 20))
+            af = requestAnimationFrame(draw);
+          else cv.style.display = "none";
+        })();
+        setTimeout(() => {
+          cancelAnimationFrame(af);
+          cv.style.display = "none";
+        }, 4000);
+      }
+    </script>
+
+    <!-- ════════════════════════════════════════════════
+     MAIN
+════════════════════════════════════════════════ -->
+    <script src="data.js"></script>
+    <script>
+      /* ── setup ──────────────────────────────────── */
+      const qp = new URLSearchParams(location.search);
+      const lid = parseInt(qp.get("id")) || 1;
+      const L = ARABIC_LETTERS.find((l) => l.id === lid) || ARABIC_LETTERS[0];
+
+      document.documentElement.style.setProperty("--clr", L.color);
+      document.documentElement.style.setProperty("--clr-l", L.colorLight);
+      document.title = `${L.letter} — ${L.name}`;
+
+      /* progress helpers */
+      const gP = () => {
+        try {
+          return JSON.parse(localStorage.getItem("arabicKidsProgress") || "{}");
+        } catch {
+          return {};
+        }
+      };
+      const sP = (p) =>
+        localStorage.setItem("arabicKidsProgress", JSON.stringify(p));
+
+      /* nav */
+      document.getElementById("nLetter").textContent = L.letter;
+      document.getElementById("nName").textContent = L.name;
+      const prev = ARABIC_LETTERS.find((l) => l.id === lid - 1);
+      const next = ARABIC_LETTERS.find((l) => l.id === lid + 1);
+      const bpEl = document.getElementById("bPrev"),
+        bnEl = document.getElementById("bNext");
+      if (prev) bpEl.href = `letter.html?id=${prev.id}`;
+      else bpEl.style.display = "none";
+      if (next) bnEl.href = `letter.html?id=${next.id}`;
+      else bnEl.style.display = "none";
+      if (next)
+        document.getElementById("bNextLetter").href =
+          `letter.html?id=${next.id}`;
+      else document.getElementById("bNextLetter").style.display = "none";
+
+      /* hero */
+      document.getElementById("bLetter").textContent = L.letter;
+      document.getElementById("bEmoji").textContent = L.emoji;
+      document.getElementById("hTitle").textContent = `Буква ${L.name}`;
+      document.getElementById("hArabic").textContent = L.nameAr;
+      document.getElementById("hSound").textContent = L.sound;
+      document.getElementById("hDesc").textContent = L.description;
+      const fL = {
+        isolated: "Отдельно",
+        initial: "В начале",
+        medial: "В середине",
+        final: "В конце",
+      };
+      const fRow = document.getElementById("formsRow");
+      Object.entries(L.forms).forEach(([k, v]) => {
+        fRow.innerHTML += `<div class="fp"><div class="fp-lbl">${fL[k]}</div><div class="fp-char">${v}</div></div>`;
+      });
+
+      /* ── carousel state ──────────────────────────── */
+      const slides = L.slides || [];
+      let cur = 0;
+      let qScore = 0; // correct quiz answers
+      const qDone = {}; // slideIndex → chosen answer(s)
+      const visited = new Set();
+
+      /* type meta */
+      const TYPE = {
+        image: { icon: "🖼️", label: "Картинки", bg: "#FFF0E5" },
+        audio: { icon: "🔊", label: "Аудио", bg: "#E5F0FF" },
+        video: { icon: "🎬", label: "Видео", bg: "#FFE5F3" },
+        quiz: { icon: "🎯", label: "Вопрос", bg: "#F0FFE5" },
+        "quiz-multi": { icon: "✅", label: "Несколько", bg: "#E5FFF8" },
+        download: { icon: "📥", label: "Скачать", bg: "#F5F0FF" },
+        text: { icon: "📝", label: "Текст", bg: "#FFF9E5" },
+      };
+
+      /* count quiz slides for score display */
+      function quizSlides() {
+        return slides.reduce((acc, s, i) => {
+          if (s.type === "quiz" || s.type === "quiz-multi") acc.push(i);
+          return acc;
+        }, []);
+      }
+
+      /* ── dots ──────────────────────────────────── */
+      function buildDots() {
+        const el = document.getElementById("dots");
+        el.innerHTML = "";
+        slides.forEach((s, i) => {
+          const d = document.createElement("div");
+          d.className =
+            "dot" + (i === cur ? " active" : visited.has(i) ? " visited" : "");
+          d.title = TYPE[s.type]?.label || s.type;
+          d.onclick = () => {
+            cur = i;
+            render();
+          };
+          el.appendChild(d);
+        });
+      }
+
+      /* ── score chip ──────────────────────────────── */
+      function updateScore() {
+        const qs = quizSlides();
+        const chip = document.getElementById("scoreChip");
+        chip.innerHTML = qs.length
+          ? `⭐ <span>${qScore}</span> / ${qs.length}`
+          : "";
+      }
+
+      /* ══════════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════════ */
+      function render() {
+        visited.add(cur);
+        const s = slides[cur];
+        if (!s) {
+          document.getElementById("slideCard").innerHTML =
+            '<div style="padding:40px;text-align:center;color:var(--muted)">Нет слайдов</div>';
+          return;
+        }
+
+        /* header */
+        document.getElementById("slideCounter").textContent =
+          `${cur + 1} / ${slides.length}`;
+        const m = TYPE[s.type] || { icon: "📄", label: s.type, bg: "#eee" };
+        const badge = document.getElementById("typeBadge");
+        // badge.textContent = `${m.icon} ${m.label}`;
+        badge.style.background = m.bg;
+        badge.style.color = "#2D2A3E";
+
+        /* arrows */
+        document.getElementById("btnPrev").disabled = cur === 0;
+        document.getElementById("btnNext").disabled = cur === slides.length - 1;
+
+        buildDots();
+        updateScore();
+
+        /* rebuild card with animation */
+        const card = document.getElementById("slideCard");
+        card.innerHTML = "";
+        card.style.animation = "none";
+        requestAnimationFrame(() => {
+          card.style.animation = "";
+        });
+
+        /* ── IMAGE ─────────────────────────────────────────
+     fields: title, src, images[], caption, text, audio
+     images[] items: { src, caption }  — gallery mode
+     src (string)                      — single image (legacy)
+  ──────────────────────────────────────────────── */
+        if (s.type === "image") {
+          if (s.title)
+            card.innerHTML = `<div class="s-title">${esc(s.title)}</div>`;
+
+          /* normalise: single src → images array */
+          const imgList =
+            s.images && s.images.length
+              ? s.images
+              : s.src
+                ? [{ src: s.src }]
+                : // ? [{ src: s.src, caption: s.caption || "" }]
+                  [];
+
+          if (imgList.length === 0) {
+            /* placeholder — no images at all */
+            const ph = document.createElement("div");
+            ph.className = "img-wrap";
+            ph.innerHTML = `<div class="img-placeholder">
+        <span class="pl-big">${L.letter}</span>
+        <span class="pl-hint">📂 src: "images/..." или images:[{src,caption}]</span>
+      </div>`;
+            card.appendChild(ph);
+          } else {
+            /* gallery grid */
+            const countClass =
+              imgList.length === 1
+                ? "count-1"
+                : imgList.length === 2
+                  ? "count-2"
+                  : imgList.length === 3
+                    ? "count-3"
+                    : imgList.length === 4
+                      ? "count-4"
+                      : "count-many";
+
+            const grid = document.createElement("div");
+            grid.className = `gallery-grid ${countClass}`;
+
+            imgList.forEach((img, i) => {
+              const item = document.createElement("div");
+              item.className = "gallery-item";
+              item.onclick = () => lbOpen(imgList, i);
+
+              if (img.src) {
+                item.innerHTML = `<img src="${esc(img.src)}" alt="${esc(img.caption || "")}">`;
+                if (img.caption)
+                  item.innerHTML += `<div class="gallery-item-cap">${esc(img.caption)}</div>`;
+              } else {
+                item.innerHTML = `<div class="gallery-item-ph">
+            <span class="ph-l">${L.letter}</span>
+            <span>src: "images/..."</span>
+          </div>`;
+                item.style.cursor = "default";
+              }
+              grid.appendChild(item);
+            });
+            card.appendChild(grid);
+          }
+
+          /* optional inline audio */
+          if (s.audio) {
+            const aRow = document.createElement("div");
+            aRow.className = "img-audio-row";
+            aRow.style.marginTop = "12px";
+            aRow.innerHTML = `<span class="audio-hint">🔊</span><audio controls src="${esc(s.audio)}"></audio>`;
+            card.appendChild(aRow);
+          } else if (s.audioPlaceholder) {
+            const aph = document.createElement("div");
+            aph.className = "img-audio-placeholder";
+            aph.style.marginTop = "12px";
+            aph.textContent = '🔊 Добавьте аудио: audio: "audio/..."';
+            card.appendChild(aph);
+          }
+
+          /* caption (slide-level, shown when using single src; skipped in gallery since each img has own) */
+          if (!s.images && s.caption) {
+            const c = document.createElement("div");
+            c.className = "s-caption";
+            c.textContent = s.caption;
+            card.appendChild(c);
+          }
+
+          /* text block */
+          if (s.text) {
+            const t = document.createElement("div");
+            t.className = "s-text";
+            t.textContent = s.text;
+            card.appendChild(t);
+          }
+        } else if (s.type === "audio") {
+          /* ── AUDIO ─────────────────────────────────────────
+     fields: title, src, caption, text
+  ──────────────────────────────────────────────── */
+          const body = document.createElement("div");
+          body.className = "audio-body";
+          body.innerHTML = `
+      <div class="audio-letter-big">${L.letter}</div>
+      <div style="font-size:17px;font-weight:900">${esc(s.title || "")}</div>
+      ${
+        s.src
+          ? `<div class="audio-player-wrap"><audio controls src="${esc(s.src)}"></audio></div>`
+          : `<div class="audio-no-src">🎵 Добавьте аудио: src: "audio/..."</div>`
+      }
+    `;
+          card.appendChild(body);
+          /* caption + text rendered BELOW the audio body */
+          if (s.caption) {
+            const c = document.createElement("div");
+            c.className = "s-caption";
+            c.style.paddingTop = "0";
+            c.textContent = s.caption;
+            card.appendChild(c);
+          }
+          if (s.text) {
+            const t = document.createElement("div");
+            t.className = "s-text";
+            t.textContent = s.text;
+            card.appendChild(t);
+          }
+        } else if (s.type === "video") {
+          /* ── VIDEO ─────────────────────────────────────────
+     fields: title, youtube, src, caption, text
+  ──────────────────────────────────────────────── */
+          if (s.title) {
+            const ti = document.createElement("div");
+            ti.className = "s-title";
+            ti.textContent = s.title;
+            card.appendChild(ti);
+          }
+
+          if (s.youtube) {
+            const ifr = document.createElement("iframe");
+            ifr.className = "video-frame";
+            ifr.src = `https://www.youtube.com/embed/${s.youtube}`;
+            ifr.allow =
+              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            ifr.allowFullscreen = true;
+            card.appendChild(ifr);
+          } else if (s.src) {
+            const vid = document.createElement("video");
+            vid.className = "video-local";
+            vid.controls = true;
+            vid.src = s.src;
+            card.appendChild(vid);
+          } else {
+            const q = encodeURIComponent(`арабская буква ${L.name} для детей`);
+            const ph = document.createElement("div");
+            ph.className = "video-placeholder";
+            ph.innerHTML = `<div class="play-big">▶</div>
+        <div class="video-ph-title">Найти видео про «${L.name}»</div>
+        <div class="video-ph-sub">Нажми — откроется YouTube 🎬</div>`;
+            ph.onclick = () =>
+              window.open(
+                `https://www.youtube.com/results?search_query=${q}`,
+                "_blank",
+              );
+            card.appendChild(ph);
+          }
+
+          if (s.caption) {
+            const c = document.createElement("div");
+            c.className = "s-caption";
+            c.textContent = s.caption;
+            card.appendChild(c);
+          }
+          if (s.text) {
+            const t = document.createElement("div");
+            t.className = "s-text";
+            t.textContent = s.text;
+            card.appendChild(t);
+          }
+        } else if (s.type === "quiz") {
+          /* ── QUIZ (single answer) ───────────────────────────
+     fields: question, emoji, options[], answer (index)
+  ──────────────────────────────────────────────── */
+          renderQuizSingle(card, s, cur);
+        } else if (s.type === "quiz-multi") {
+          /* ── QUIZ-MULTI (multiple correct answers) ───────────
+     fields: question, emoji, options[], answers[] (array of correct indices)
+  ──────────────────────────────────────────────── */
+          renderQuizMulti(card, s, cur);
+        } else if (s.type === "download") {
+          /* ── DOWNLOAD ──────────────────────────────────────
+     fields: title, description, src, filename, fileType, icon
+  ──────────────────────────────────────────────── */
+          const body = document.createElement("div");
+          body.className = "dl-body";
+
+          const icon = s.icon || "📄";
+          body.innerHTML = `
+      <div class="dl-icon-wrap">${icon}</div>
+      <div class="dl-title">${esc(s.title || "Скачать файл")}</div>
+      ${s.description ? `<div class="dl-desc">${esc(s.description)}</div>` : ""}
+      ${
+        s.src
+          ? `<a href="${esc(s.src)}" download="${esc(s.filename || s.src)}" class="dl-btn">
+             <span class="dl-arrow">⬇</span> Скачать
+           </a>
+           ${s.filename ? `<div class="dl-file-info">📁 ${esc(s.filename)}${s.fileType ? " · " + esc(s.fileType) : ""}</div>` : ""}`
+          : `<div class="dl-no-src">📂 Добавьте файл: src: "files/worksheet.pdf"</div>`
+      }
+    `;
+          card.appendChild(body);
+
+          if (s.text) {
+            const t = document.createElement("div");
+            t.className = "s-text";
+            t.textContent = s.text;
+            card.appendChild(t);
+          }
+        } else if (s.type === "text") {
+          /* ── TEXT ──────────────────────────────────────────
+     fields: title, body, emoji, align ("left"|"center"|"right"), size ("normal"|"small"|"large"|"xlarge")
+  ──────────────────────────────────────────────── */
+          const align = s.align || "left";
+          const size = s.size || "normal";
+          const body = document.createElement("div");
+          body.className = "text-slide-body";
+
+          if (s.emoji) {
+            const em = document.createElement("div");
+            em.className = "text-slide-emoji";
+            em.textContent = s.emoji;
+            body.appendChild(em);
+          }
+
+          if (s.title) {
+            const ti = document.createElement("div");
+            ti.className = `text-slide-title align-${align}`;
+            ti.textContent = s.title;
+            body.appendChild(ti);
+          }
+
+          if (s.body) {
+            const co = document.createElement("div");
+            co.className = `text-slide-content align-${align} size-${size}`;
+            /* support **bold** and *highlight* simple markdown-like syntax */
+            co.innerHTML = esc(s.body)
+              .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+              .replace(/\*(.+?)\*/g, "<em>$1</em>")
+              .replace(
+                /\[(.+?)\]\((https?:\/\/[^\)]+)\)/g,
+                '<a href="$2" target="_blank" rel="noopener" style="color:var(--clr);font-weight:800;text-underline-offset:3px">$1</a>',
+              );
+            body.appendChild(co);
+          }
+
+          card.appendChild(body);
+        }
+
+        checkCompletion();
+      }
+
+      /* ── single-answer quiz ──────────────────────── */
+      function renderQuizSingle(card, s, idx) {
+        const already = qDone[idx];
+        const qList = quizSlides();
+        const qPos = qList.indexOf(idx) + 1;
+        const qTot = qList.length;
+
+        const body = document.createElement("div");
+        body.className = "quiz-body";
+        body.innerHTML = `
+    <div class="q-emoji">${s.emoji || "🤔"}</div>
+    <div class="q-num">Вопрос ${qPos} из ${qTot}</div>
+    <div class="q-text">${esc(s.question)}</div>
+    <div class="q-opts" id="qOpts${idx}"></div>
+    <div class="q-fb"   id="qFb${idx}"></div>`;
+        card.appendChild(body);
+
+        const opts = document.getElementById(`qOpts${idx}`);
+        s.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.className = "q-opt";
+          btn.textContent = opt;
+          if (already !== undefined) {
+            btn.disabled = true;
+            if (i === s.answer) btn.classList.add("correct");
+            else if (i === already) btn.classList.add("wrong");
+          } else {
+            btn.onclick = () =>
+              answerSingle(idx, i, s.answer, s.options[s.answer]);
+          }
+          opts.appendChild(btn);
+        });
+
+        if (already !== undefined) {
+          const fb = document.getElementById(`qFb${idx}`);
+          fb.className = already === s.answer ? "q-fb correct" : "q-fb wrong";
+          fb.textContent =
+            already === s.answer
+              ? ["🎉 Молодец!", "⭐ Отлично!", "🌟 Верно!", "👏 Супер!"][
+                  (Math.random() * 4) | 0
+                ]
+              : `Правильный ответ: ${s.options[s.answer]} 💪`;
+        }
+      }
+
+      function answerSingle(idx, sel, correct, correctText) {
+        if (qDone[idx] !== undefined) return;
+        qDone[idx] = sel;
+        if (sel === correct) qScore++;
+
+        Array.from(document.getElementById(`qOpts${idx}`).children).forEach(
+          (b) => (b.disabled = true),
+        );
+        document
+          .getElementById(`qOpts${idx}`)
+          .children[correct].classList.add("correct");
+        if (sel !== correct)
+          document
+            .getElementById(`qOpts${idx}`)
+            .children[sel].classList.add("wrong");
+
+        const fb = document.getElementById(`qFb${idx}`);
+        if (sel === correct) {
+          fb.className = "q-fb correct";
+          fb.textContent = [
+            "🎉 Молодец!",
+            "⭐ Отлично!",
+            "🌟 Верно!",
+            "👏 Супер!",
+          ][(Math.random() * 4) | 0];
+        } else {
+          fb.className = "q-fb wrong";
+          fb.textContent = `Правильный ответ: ${correctText} 💪`;
+        }
+        updateScore();
+        checkCompletion();
+      }
+
+      /* ── multi-answer quiz ───────────────────────── */
+      function renderQuizMulti(card, s, idx) {
+        const already = qDone[idx]; // array of selected indices, or undefined
+        const correctSet = new Set(s.answers);
+        const qList = quizSlides();
+        const qPos = qList.indexOf(idx) + 1;
+        const qTot = qList.length;
+
+        const body = document.createElement("div");
+        body.className = "quiz-body";
+        body.innerHTML = `
+    <div class="q-emoji">${s.emoji || "✅"}</div>
+    <div class="q-num">Вопрос ${qPos} из ${qTot} · <em style="font-style:normal;color:var(--clr)">Выбери все верные ответы</em></div>
+    <div class="q-text">${esc(s.question)}</div>
+    <div class="q-opts" id="qOpts${idx}"></div>
+    <div class="q-submit-row" id="qSubmit${idx}"></div>
+    <div class="q-fb" id="qFb${idx}"></div>`;
+        card.appendChild(body);
+
+        const opts = document.getElementById(`qOpts${idx}`);
+        const selectedNow = new Set();
+
+        s.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.className = "q-opt";
+          btn.textContent = opt;
+
+          if (already !== undefined) {
+            btn.disabled = true;
+            const chosen = already.includes(i);
+            const right = correctSet.has(i);
+            if (chosen && right) btn.classList.add("sel-correct");
+            else if (chosen) btn.classList.add("sel-wrong");
+            else if (right) btn.classList.add("missed"); // correct but not chosen
+          } else {
+            btn.onclick = () => {
+              if (selectedNow.has(i)) {
+                selectedNow.delete(i);
+                btn.classList.remove("selected");
+              } else {
+                selectedNow.add(i);
+                btn.classList.add("selected");
+              }
+              // enable submit only if ≥1 selected
+              const sb = document
+                .getElementById(`qSubmit${idx}`)
+                .querySelector("button");
+              if (sb) sb.disabled = selectedNow.size === 0;
+            };
+          }
+          opts.appendChild(btn);
+        });
+
+        const submitRow = document.getElementById(`qSubmit${idx}`);
+        if (already === undefined) {
+          const sb = document.createElement("button");
+          sb.className = "q-submit-btn";
+          sb.textContent = "✔ Проверить";
+          sb.disabled = true;
+          sb.onclick = () => answerMulti(idx, s, [...selectedNow]);
+          submitRow.appendChild(sb);
+        }
+
+        if (already !== undefined) {
+          const sel = new Set(already);
+          const allCorrect =
+            [...correctSet].every((i) => sel.has(i)) &&
+            [...sel].every((i) => correctSet.has(i));
+          const fb = document.getElementById(`qFb${idx}`);
+          if (allCorrect) {
+            fb.className = "q-fb correct";
+            fb.textContent = [
+              "🎉 Молодец!",
+              "⭐ Отлично!",
+              "🌟 Верно!",
+              "👏 Супер!",
+            ][(Math.random() * 4) | 0];
+          } else {
+            const missed = s.options.filter(
+              (_, i) => correctSet.has(i) && !sel.has(i),
+            );
+            fb.className = "q-fb wrong";
+            fb.textContent = `Правильные ответы: ${[...correctSet].map((i) => s.options[i]).join(", ")} 💪`;
+          }
+        }
+      }
+
+      function answerMulti(idx, s, selectedArr) {
+        qDone[idx] = selectedArr;
+        const correctSet = new Set(s.answers);
+        const selSet = new Set(selectedArr);
+        const allCorrect =
+          [...correctSet].every((i) => selSet.has(i)) &&
+          [...selSet].every((i) => correctSet.has(i));
+        if (allCorrect) qScore++;
+
+        // freeze buttons + colour
+        Array.from(document.getElementById(`qOpts${idx}`).children).forEach(
+          (btn, i) => {
+            btn.disabled = true;
+            const chosen = selSet.has(i),
+              right = correctSet.has(i);
+            btn.classList.remove("selected");
+            if (chosen && right) btn.classList.add("sel-correct");
+            else if (chosen) btn.classList.add("sel-wrong");
+            else if (right) btn.classList.add("missed");
+          },
+        );
+
+        // hide submit
+        const submitRow = document.getElementById(`qSubmit${idx}`);
+        if (submitRow) submitRow.innerHTML = "";
+
+        const fb = document.getElementById(`qFb${idx}`);
+        if (allCorrect) {
+          fb.className = "q-fb correct";
+          fb.textContent = [
+            "🎉 Молодец!",
+            "⭐ Отлично!",
+            "🌟 Верно!",
+            "👏 Супер!",
+          ][(Math.random() * 4) | 0];
+        } else {
+          fb.className = "q-fb wrong";
+          fb.textContent = `Правильные ответы: ${[...correctSet].map((i) => s.options[i]).join(", ")} 💪`;
+        }
+        updateScore();
+        checkCompletion();
+      }
+
+      /* ── completion ──────────────────────────────── */
+      function checkCompletion() {
+        const qs = quizSlides();
+        const allQ = qs.every((i) => qDone[i] !== undefined);
+        const allV = slides.every((_, i) => visited.has(i));
+        const done = (qs.length === 0 && allV) || (qs.length > 0 && allQ);
+        const banner = document.getElementById("doneBanner");
+        if (done && !banner.classList.contains("show")) {
+          banner.classList.add("show");
+          showResult();
+        }
+      }
+
+      function showResult() {
+        const qs = quizSlides();
+        const pct = qs.length ? qScore / qs.length : 1;
+        document.getElementById("dTrophy").textContent =
+          pct === 1 ? "🏆" : pct >= 0.67 ? "🌟" : "📚";
+        document.getElementById("dTitle").textContent =
+          pct === 1 ? "Ты лучший!" : pct >= 0.67 ? "Отлично!" : "Попробуй ещё!";
+        document.getElementById("dScore").textContent = qs.length
+          ? `${qScore} из ${qs.length}`
+          : "✓";
+        document.getElementById("dStars").textContent =
+          "⭐".repeat(qScore) + "☆".repeat(qs.length - qScore);
+        document.getElementById("dSub").textContent =
+          pct === 1
+            ? "Все вопросы верно! 🎊"
+            : pct >= 0.67
+              ? "Очень хорошо!"
+              : "Можно пройти ещё раз!";
+        const p = gP();
+        if (!p[lid]) p[lid] = {};
+        p[lid].done = true;
+        p[lid].score = qScore;
+        sP(p);
+        if (pct === 1) setTimeout(confetti, 300);
+      }
+
+      /* ── navigation ──────────────────────────────── */
+      function move(dir) {
+        const nx = cur + dir;
+        if (nx >= 0 && nx < slides.length) {
+          cur = nx;
+          render();
+          // window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+
+      function restart() {
+        cur = 0;
+        qScore = 0;
+        Object.keys(qDone).forEach((k) => delete qDone[k]);
+        visited.clear();
+        document.getElementById("doneBanner").classList.remove("show");
+        render();
+      }
+
+      /* ── swipe ───────────────────────────────────── */
+      let tx = 0;
+      document.getElementById("slideCard").addEventListener(
+        "touchstart",
+        (e) => {
+          tx = e.touches[0].clientX;
+        },
+        { passive: true },
+      );
+      document.getElementById("slideCard").addEventListener(
+        "touchend",
+        (e) => {
+          if (Math.abs(e.changedTouches[0].clientX - tx) > 50)
+            move(e.changedTouches[0].clientX < tx ? 1 : -1);
+        },
+        { passive: true },
+      );
+
+      /* ── keyboard ────────────────────────────────── */
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") move(1);
+        if (e.key === "ArrowLeft") move(-1);
+      });
+
+      /* ── helpers ─────────────────────────────────── */
+      function esc(s) {
+        const d = document.createElement("div");
+        d.textContent = s || "";
+        return d.innerHTML;
+      }
+
+      /* ── Lightbox ──────────────────────────────────── */
+      let lbImages = []; // current gallery [{src,caption}]
+      let lbIdx = 0;
+
+      function lbOpen(imgList, idx) {
+        lbImages = imgList.filter((i) => i.src);
+        if (!lbImages.length) return;
+        lbIdx = Math.min(idx, lbImages.length - 1);
+        lbShow();
+        document.getElementById("lightbox").classList.add("open");
+      }
+
+      function lbShow() {
+        const img = lbImages[lbIdx];
+        document.getElementById("lbImg").src = img.src;
+        document.getElementById("lbImg").alt = img.caption || "";
+        document.getElementById("lbCap").textContent = img.caption || "";
+        document.getElementById("lbCounter").textContent =
+          lbImages.length > 1 ? `${lbIdx + 1} / ${lbImages.length}` : "";
+        document.getElementById("lbPrev").style.display =
+          lbIdx === 0 ? "none" : "";
+        document.getElementById("lbNext").style.display =
+          lbIdx === lbImages.length - 1 ? "none" : "";
+      }
+
+      function lbMove(dir) {
+        lbIdx = Math.max(0, Math.min(lbImages.length - 1, lbIdx + dir));
+        lbShow();
+      }
+
+      function lbHide() {
+        document.getElementById("lightbox").classList.remove("open");
+      }
+
+      function lbClose(e) {
+        /* close only when clicking the dark backdrop, not the image/controls */
+        if (e.target === document.getElementById("lightbox")) lbHide();
+      }
+
+      /* close lightbox with Escape key */
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") lbHide();
+        if (
+          e.key === "ArrowRight" &&
+          document.getElementById("lightbox").classList.contains("open")
+        )
+          lbMove(1);
+        if (
+          e.key === "ArrowLeft" &&
+          document.getElementById("lightbox").classList.contains("open")
+        )
+          lbMove(-1);
+      });
+
+      /* ── go! ─────────────────────────────────────── */
+      render();
+    </script>
+  </body>
+</html>
